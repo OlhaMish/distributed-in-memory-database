@@ -1,4 +1,5 @@
 import requests
+import grequests
 from flask import Flask, request, jsonify
 from master.storage import save_to_persistent_storage, load_from_persistent_storage
 
@@ -23,11 +24,16 @@ class MasterServer:
         return {"status": "success", "key": key, "value": value}
 
     def broadcast_set(self, key, value):
-        for node in self.edge_nodes:
-            try:
-                requests.post(f"{node['url']}/keys/{key}", json={"value": value})
-            except requests.RequestException as e:
-                print(f"Error broadcasting to {node['url']}: {e}")
+       requests = []
+       for node in self.edge_nodes:
+           url = f"{node['url']}/keys/{key}"
+           data = {"value": value}
+           requests.append(grequests.post(url, json=data))
+       responses = grequests.map(requests)
+       for response in responses:
+           if response is not None and response.status_code != 200:
+               print(f"Error broadcasting to {node['url']}: {response.status_code}")
+
 
     def sync_with_master(self):
         for node in self.edge_nodes:
