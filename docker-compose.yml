@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  master:
+    build: ./master/
+    container_name: master_db
+
+    ports:
+      - "5000:5000"
+
+  slave:
+    build: ./slave/
+    container_name: slave_db
+    environment:
+      - MASTER_URL=http://master_db:5000
+    depends_on:
+      - master
+    ports:
+      - "5001:5001"
+
