@@ -1,17 +1,13 @@
 [tool.poetry]
 name = "client"
-version = "0.1.0"
+version = "0.1.1"
 description = "Client library for the Distributed Key-Value In-Memory Storage system"
-authors = ["StrivingToAdoniss <gorovyi.sv@gmail.com>"]
+authors = ["olhamish <olgami1402@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-requests = "^2.26.0"
-geopy = "^2.2.0"
 
-[tool.poetry.dev-dependencies]
-pytest = "^6.2.5"
 
 [build-system]
 requires = ["poetry-core"]
