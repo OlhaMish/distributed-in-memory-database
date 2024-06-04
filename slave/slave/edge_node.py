@@ -1,5 +1,9 @@
 import requests
 from flask import Flask, request, jsonify
+import os
+
+PORT = 5001
+
 
 class EdgeNode:
     def __init__(self, master_url):
@@ -50,4 +54,4 @@ def get_value(key):
 
 if __name__ == '__main__':
     edge_node.sync_with_master()
-    app.run(host='0.0.0.0', port=5001)
+    app.run(host='0.0.0.0', port=PORT)
