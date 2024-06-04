@@ -42,34 +42,3 @@ class MasterServer:
                 node_data = response.json()
                 self.database.update(node_data)
         self.save_database()
-
-master_server = MasterServer()
-
-@app.route('/set', methods=['POST'])
-def set_value():
-    data = request.json
-    result = master_server.set_value(data['key'], data['value'])
-    return jsonify(result)
-
-@app.route('/get/<key>', methods=['GET'])
-def get_value(key):
-    result = master_server.get_value(key)
-    return jsonify(result)
-
-@app.route('/nodes', methods=['GET'])
-def get_nodes():
-    return jsonify(master_server.edge_nodes)
-
-@app.route('/nodes', methods=['POST'])
-def add_node():
-    node = request.json
-    master_server.edge_nodes.append(node)
-    return jsonify({"status": "node added"})
-
-@app.route('/keys', methods=['GET'])
-def get_all_keys():
-    return jsonify(master_server.database)
-
-if __name__ == '__main__':
-    master_server.sync_with_master()
-    app.run(host='0.0.0.0', port=5000)
