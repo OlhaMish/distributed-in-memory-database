@@ -10,6 +10,9 @@ class EdgeNode:
         self.master_url = master_url
         self.database = {}
 
+    def announce_to_master(self):
+        requests.post(f"{self.master_url}/nodes", json={"port": PORT})
+
     def sync_with_master(self):
         try:
             response = requests.get(f"{self.master_url}/keys")
@@ -33,13 +36,17 @@ class EdgeNode:
         else:
             return {"status": "error", "message": "Key not found"}
 
+
 app = Flask(__name__)
-edge_node = EdgeNode(master_url="http://localhost:5000")
+edge_node = EdgeNode(master_url=os.getenv("MASTER_URL", "http://localhost:5000"))
+edge_node.announce_to_master()
+
 
 @app.route('/sync', methods=['POST'])
 def sync():
     edge_node.sync_with_master()
     return jsonify({"status": "sync complete"})
+
 
 @app.route('/keys/<key>', methods=['POST'])
 def set_value(key):
@@ -47,10 +54,16 @@ def set_value(key):
     result = edge_node.set_value(key, data['value'])
     return jsonify(result)
 
+
 @app.route('/keys/<key>', methods=['GET'])
 def get_value(key):
     result = edge_node.get_value(key)
     return jsonify(result)
+
+
+def announce_self():
+    requests.post()
+
 
 if __name__ == '__main__':
     edge_node.sync_with_master()
