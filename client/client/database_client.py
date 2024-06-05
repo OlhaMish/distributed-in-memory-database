@@ -1,6 +1,5 @@
 import requests
 import time
-import base64
 
 
 class DatabaseClient:
@@ -25,7 +24,8 @@ class DatabaseClient:
                 if latency < best_latency:
                     best_latency = latency
                     best_slave = slave
-            except requests.RequestException:
+            except requests.RequestException as e:
+                print(f"Error contacting slave {slave}: {e}")
                 continue
         if best_slave is None:
             raise Exception("No responsive slave nodes found")
