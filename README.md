@@ -8,23 +8,57 @@ This repository contains a distributed key-value in-memory storage system, desig
 
 ## Authors
 
-- **Oleksandr Horovyi**
 - **Olha Mishchuk**
+- **Oleksandr Horovyi**
 
 ## Documentation
 
-For detailed information about the project's design and implementation, please refer to the [Designer Document](https://docs.google.com/document/d/1ChiZur4TCOA_NRxsgcBbnRgII_Wa3irQWM-TebQbfCw/edit?usp=sharing).
+For detailed information about the project's design and implementation, please refer to the [Design Document](https://docs.google.com/document/d/1ChiZur4TCOA_NRxsgcBbnRgII_Wa3irQWM-TebQbfCw/edit?usp=sharing).
 
 ## Features
 
 
-
 ## Getting Started
 
-Instructions on how to get started with the project will be provided here soon.
+### Prerequisites
 
----
+1. Install python 3.10 from https://python.org or use [pipenv](https://pipenv.pypa.io/en/latest/) 
+2. Install poetry from the [official website](https://python-poetry.org/docs/#installation)
+3. Change your working directory to one of the three desired poetry projects:
+   - `cd client`
+   - `cd master`
+   - `cd slave`
+4. Execute `poetry install` command to install all dependencies
 
-Stay tuned for more updates and detailed documentation!
+Optionally you may omit steps above, if you have docker and 
+docker-compose installed. Simply run `docker-compose up` to 
+start the project
 
----
+### How to use
+
+1. For the `master` service:
+   - `cd master`
+   - `poetry run python server.py` to launch master/coordinator service
+   - `poetry run pytest` to run tests
+2. For the `slave` service :
+   - `cd slave`
+   - `poetry run python slave/edge_node.py` to launch slave service
+   - `poetry run pytest` to run tests
+3. To work with client code:
+   - `cd client`
+   - Now you may [create python scripts using client library](#client-library-usage-example)
+   - Or you may run tests via `poetry run pytest`
+
+
+### Client library usage example:
+```python
+from client.database_client import DatabaseClient
+
+
+db = DatabaseClient("http://localhost:5000")
+
+db.set("test_key", "test_value")
+
+# Prints "test_value", even on any other machines
+print(db.get("test_key"))
+```
