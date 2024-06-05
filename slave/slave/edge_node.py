@@ -39,7 +39,6 @@ class EdgeNode:
 
 app = Flask(__name__)
 edge_node = EdgeNode(master_url=os.getenv("MASTER_URL", "http://localhost:5000"))
-edge_node.announce_to_master()
 
 
 @app.route('/sync', methods=['POST'])
@@ -66,5 +65,6 @@ def announce_self():
 
 
 if __name__ == '__main__':
+    edge_node.announce_to_master()
     edge_node.sync_with_master()
     app.run(host='0.0.0.0', port=PORT)
