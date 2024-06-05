@@ -3,6 +3,7 @@ from master.master_server import MasterServer
 from master.storage import save_to_persistent_storage, load_from_persistent_storage
 import os
 
+
 class TestMasterServer(unittest.TestCase):
     def setUp(self):
         # Clear the persistent storage before each test
@@ -29,6 +30,7 @@ class TestMasterServer(unittest.TestCase):
         new_master_server = MasterServer()
         self.assertIn("test_key", new_master_server.database)
         self.assertEqual(new_master_server.database["test_key"], "test_value")
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,6 +1,7 @@
 import unittest
 from slave.edge_node import EdgeNode
 
+
 class TestEdgeNode(unittest.TestCase):
     def setUp(self):
         self.edge_node = EdgeNode(master_url="http://localhost:5000")
@@ -14,6 +15,7 @@ class TestEdgeNode(unittest.TestCase):
         result = self.edge_node.get_value("nonexistent_key")
         self.assertEqual(result['status'], "error")
         self.assertEqual(result['message'], "Key not found")
+
 
 if __name__ == '__main__':
     unittest.main()
