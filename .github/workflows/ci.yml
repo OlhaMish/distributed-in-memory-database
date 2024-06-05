@@ -28,8 +28,20 @@ jobs:
         python -m pip install --upgrade pip
         pip install poetry
 
-    - name: Run tests
+    - name: Install dependencies and run tests for client
       run: |
-        cd client poetry install poetry run pytest
-        cd ../master poetry install poetry run pytest
-        cd ../slave poetry install poetry run pytest
+        cd client
+        poetry install
+        poetry run pytest
+
+    - name: Install dependencies and run tests for master
+      run: |
+        cd master
+        poetry install
+        poetry run pytest
+
+    - name: Install dependencies and run tests for slave
+      run: |
+        cd slave
+        poetry install
+        poetry run pytest
