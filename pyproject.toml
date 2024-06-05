@@ -1,14 +1,15 @@
 [tool.poetry]
-name = "client"
+name = "distributed-in-memory-database"
 version = "0.1.0"
-description = "Client library for the Distributed Key-Value In-Memory Storage system"
-authors = ["StrivingToAdoniss <gorovyi.sv@gmail.com>"]
+description = "A distributed key-value in-memory storage system"
+authors = ["Oleksandr Horovyi <gorovyi.sv@gmail.com>", "Olha Mishchuk <olgami1402@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
 requests = "^2.26.0"
 geopy = "^2.2.0"
+flask = "^2.0.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"
