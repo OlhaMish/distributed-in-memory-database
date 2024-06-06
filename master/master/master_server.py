@@ -1,6 +1,6 @@
 import requests
 import grequests
-from storage import save_to_persistent_storage, load_from_persistent_storage, append_to_log, compact_log
+from master.storage import save_to_persistent_storage, load_from_persistent_storage, append_to_log, compact_log
 from threading import Timer
 
 class MasterServer:
