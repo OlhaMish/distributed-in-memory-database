@@ -31,6 +31,7 @@ class MasterServer:
         self.pending_updates[key] = value
         append_to_log(key, value)
         self.broadcast_set(key, value)
+        self.save_database()  # Force save for test purposes
         return {"status": "success", "key": key, "value": value}
 
     def get_value(self, key):

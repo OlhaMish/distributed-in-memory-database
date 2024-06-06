@@ -22,14 +22,12 @@ class TestMasterServer(unittest.TestCase):
 
     def test_save_and_load_database(self):
         self.master_server.set_value("test_key", "test_value")
-        time.sleep(2)  # Wait a bit for periodic save
         loaded_database = load_from_persistent_storage()
         self.assertIn("test_key", loaded_database)
         self.assertEqual(loaded_database["test_key"], "test_value")
 
     def test_load_database_on_startup(self):
         self.master_server.set_value("test_key", "test_value")
-        time.sleep(2)  # Wait a bit for periodic save
 
         new_master_server = MasterServer()
         self.assertIn("test_key", new_master_server.database)
@@ -38,7 +36,6 @@ class TestMasterServer(unittest.TestCase):
     def test_append_log(self):
         self.master_server.set_value("test_key1", "test_value1")
         self.master_server.set_value("test_key2", "test_value2")
-        time.sleep(2)  # Wait a bit for periodic save
 
         self.master_server.save_database()  # Force save to ensure log compaction
         loaded_database = load_from_persistent_storage()
