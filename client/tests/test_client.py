@@ -1,7 +1,7 @@
 import pytest
 import requests
 from unittest.mock import patch, Mock
-from client.database_client import DatabaseClient  # Replace 'my_module' with the name of your module
+from client.database_client import DatabaseClient
 
 
 # Mocking the requests.get and requests.post methods
