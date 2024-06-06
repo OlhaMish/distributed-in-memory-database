@@ -13,7 +13,7 @@ This repository contains a distributed key-value in-memory storage system, desig
 
 ## Documentation
 
-For detailed information about the project's design and implementation, please refer to the [Design Document](https://docs.google.com/document/d/1ChiZur4TCOA_NRxsgcBbnRgII_Wa3irQWM-TebQbfCw/edit?usp=sharing).
+For detailed information about the project's design and implementation, please refer to the [Design Document](https://docs.google.com/document/d/1XD8Jmv1R3rU5i7TODRxDkQDlvKBmiipOmU6FJeioUWg/edit?usp=sharing).
 
 ## Features
 
