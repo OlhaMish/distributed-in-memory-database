@@ -1,20 +1,36 @@
 import requests
 import grequests
-from .storage import save_to_persistent_storage, load_from_persistent_storage
-
+from storage import save_to_persistent_storage, load_from_persistent_storage, append_to_log, compact_log
+from threading import Timer
 
 class MasterServer:
     def __init__(self):
         self.database = load_from_persistent_storage()
         self.edge_nodes = []
+        self.pending_updates = {}
+        self.save_interval = 60  # Save changes every 60 seconds
+        self.start_periodic_save()
+
+    def start_periodic_save(self):
+        def save_changes():
+            if self.pending_updates:
+                self.save_database()
+                self.pending_updates = {}
+            Timer(self.save_interval, save_changes).start()
+
+        save_changes()
 
     def save_database(self):
+        # Save only the pending updates
+        for key, value in self.pending_updates.items():
+            self.database[key] = value
         save_to_persistent_storage(self.database)
+        compact_log()
 
     def set_value(self, key, value):
-        self.database[key] = value
+        self.pending_updates[key] = value
+        append_to_log(key, value)
         self.broadcast_set(key, value)
-        self.save_database()
         return {"status": "success", "key": key, "value": value}
 
     def get_value(self, key):
