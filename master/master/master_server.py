@@ -3,22 +3,34 @@ import grequests
 from master.storage import save_to_persistent_storage, load_from_persistent_storage, append_to_log, compact_log
 from threading import Timer
 
+
 class MasterServer:
-    def __init__(self):
+    def __init__(self, enable_periodic_save=True):
         self.database = load_from_persistent_storage()
         self.edge_nodes = []
         self.pending_updates = {}
+        self.timer = None
         self.save_interval = 60  # Save changes every 60 seconds
-        self.start_periodic_save()
+        self.enable_periodic_save = enable_periodic_save
+        if self.enable_periodic_save:
+            self.start_periodic_save()
 
     def start_periodic_save(self):
+        from threading import Timer
+
         def save_changes():
             if self.pending_updates:
                 self.save_database()
                 self.pending_updates = {}
-            Timer(self.save_interval, save_changes).start()
+            if self.enable_periodic_save:
+                self.timer = Timer(self.save_interval, save_changes)
+                self.timer.start()
 
         save_changes()
+
+    def stop_periodic_save(self):
+        if self.timer is not None:
+            self.timer.cancel()
 
     def save_database(self):
         # Save only the pending updates

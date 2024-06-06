@@ -11,7 +11,7 @@ class TestMasterServer(unittest.TestCase):
             os.remove(PERSISTENT_STORAGE_FILE)
         if os.path.exists(LOG_FILE):
             os.remove(LOG_FILE)
-        self.master_server = MasterServer()
+        self.master_server = MasterServer(enable_periodic_save=False)
 
     def tearDown(self):
         # Clean up after tests
@@ -29,7 +29,7 @@ class TestMasterServer(unittest.TestCase):
     def test_load_database_on_startup(self):
         self.master_server.set_value("test_key", "test_value")
 
-        new_master_server = MasterServer()
+        new_master_server = MasterServer(enable_periodic_save=False)
         self.assertIn("test_key", new_master_server.database)
         self.assertEqual(new_master_server.database["test_key"], "test_value")
 
